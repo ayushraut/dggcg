@@ -1,0 +1,73 @@
+#include <iostream>
+
+inline void largest3(int a, int b, int c) {
+    if (a >= b && a >= c) {
+        std::cout << "Largest number: " << a << std::endl;
+        if (b >= c) {
+            std::cout << "Second largest number: " << b << std::endl;
+            std::cout << "Third largest number: " << c << std::endl;
+        } else {
+            std::cout << "Second largest number: " << c << std::endl;
+            std::cout << "Third largest number: " << b << std::endl;
+        }
+    } else if (b >= a && b >= c) {
+        std::cout << "Largest number: " << b << std::endl;
+        if (a >= c) {
+            std::cout << "Second largest number: " << a << std::endl;
+            std::cout << "Third largest number: " << c << std::endl;
+        } else {
+            std::cout << "Second largest number: " << c << std::endl;
+            std::cout << "Third largest number: " << a << std::endl;
+        }
+    } else {
+        std::cout << "Largest number: " << c << std::endl;
+        if (a >= b) {
+            std::cout << "Second largest number: " << a << std::endl;
+            std::cout << "Third largest number: " << b << std::endl;
+        } else {
+            std::cout << "Second largest number: " << b << std::endl;
+            std::cout << "Third largest number: " << a << std::endl;
+        }
+    }
+}
+
+int main() {
+    int num1, num2, num3;
+    std::cout << "Enter three numbers: ";
+    std::cin >> num1 >> num2 >> num3;
+    largest3(num1, num2, num3);
+    return 0;
+}
+
+///////////////////////////////////////
+
+#include <iostream>
+using namespace std;
+
+template <typename T>
+class BubbleSort {
+public:
+    static void sort(T arr[], int size) {
+        for (int i = 0; i < size - 1; i++) {
+            for (int j = 0; j < size - i - 1; j++) {
+                if (arr[j] > arr[j+1]) {
+                    swap(arr[j], arr[j+1]);
+                }
+            }
+        }
+    }
+};
+
+int main() {
+    int arr[] = {5, 2, 8, 1, 9};
+    int size = sizeof(arr)/sizeof(arr[0]);
+
+    BubbleSort<int>::sort(arr, size);
+
+    for (int i = 0; i < size; i++) {
+        cout << arr[i] << " ";
+    }
+    cout << endl;
+
+    return 0;
+}
