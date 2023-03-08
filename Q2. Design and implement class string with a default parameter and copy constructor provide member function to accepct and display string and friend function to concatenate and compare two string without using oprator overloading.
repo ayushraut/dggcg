@@ -1,0 +1,58 @@
+#include <iostream>
+#include <cstring>
+
+class String {
+private:
+    char* data;
+
+public:
+    String(const char* str = "") {
+        data = new char[strlen(str) + 1];
+        strcpy(data, str);
+    }
+
+    String(const String& other) {
+        data = new char[strlen(other.data) + 1];
+        strcpy(data, other.data);
+    }
+
+    ~String() {
+        delete[] data;
+    }
+
+    void setData(const char* str) {
+        delete[] data;
+        data = new char[strlen(str) + 1];
+        strcpy(data, str);
+    }
+
+    void display() const {
+        std::cout << data << std::endl;
+    }
+
+    friend String concatenate(const String& str1, const String& str2) {
+        String result;
+        result.data = new char[strlen(str1.data) + strlen(str2.data) + 1];
+        strcpy(result.data, str1.data);
+        strcat(result.data, str2.data);
+        return result;
+    }
+
+    friend bool compare(const String& str1, const String& str2) {
+        return strcmp(str1.data, str2.data) == 0;
+    }
+};
+int main() {
+    String str1("Hello"), str2("world");
+    String str3 = concatenate(str1, str2);
+
+    str3.display();
+
+    if(compare(str1, str2)) {
+        std::cout << "Strings are equal" << std::endl;
+    } else {
+        std::cout << "Strings are not equal" << std::endl;
+    }
+
+    return 0;
+}
