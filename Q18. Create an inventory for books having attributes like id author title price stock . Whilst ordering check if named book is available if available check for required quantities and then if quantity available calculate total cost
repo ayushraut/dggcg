@@ -1,0 +1,80 @@
+#include <iostream>
+#include <string>
+#include <vector>
+#include <algorithm>
+
+using namespace std;
+
+class Book {
+public:
+    int id;
+    string author;
+    string title;
+    double price;
+    int stock;
+
+    Book(int id, string author, string title, double price, int stock) {
+        this->id = id;
+        this->author = author;
+        this->title = title;
+        this->price = price;
+        this->stock = stock;
+    }
+
+    bool operator==(const Book& other) const {
+        return this->id == other.id;
+    }
+};
+
+class Inventory {
+private:
+    vector<Book> books;
+
+public:
+    void addBook(Book book) {
+        books.push_back(book);
+    }
+
+    void removeBook(Book book) {
+        auto it = find(books.begin(), books.end(), book);
+        if (it != books.end()) {
+            books.erase(it);
+        }
+    }
+
+    bool isBookAvailable(Book book, int quantity) {
+        auto it = find(books.begin(), books.end(), book);
+        if (it != books.end() && it->stock >= quantity) {
+            return true;
+        }
+        return false;
+    }
+
+    double calculateTotalCost(Book book, int quantity) {
+        auto it = find(books.begin(), books.end(), book);
+        if (it != books.end() && it->stock >= quantity) {
+            return quantity * it->price;
+        }
+        return 0;
+    }
+};
+
+int main() {
+    Inventory inventory;
+    inventory.addBook(Book(1, "J.K. Rowling", "Harry Potter and the Philosopher's Stone", 10.99, 50));
+    inventory.addBook(Book(2, "J.R.R. Tolkien", "The Lord of the Rings", 12.99, 30));
+    inventory.addBook(Book(3, "Stephenie Meyer", "Twilight", 9.99, 20));
+
+    Book bookToOrder(1, "J.K. Rowling", "Harry Potter and the Philosopher's Stone", 0, 0);
+    int quantityToOrder = 10;
+
+    if (inventory.isBookAvailable(bookToOrder, quantityToOrder)) {
+        double totalCost = inventory.calculateTotalCost(bookToOrder, quantityToOrder);
+        cout << "Book is available. Total cost is " << totalCost << endl;
+    }
+    else {
+        cout << "Book is not available." << endl;
+    }
+
+    return 0;
+}
